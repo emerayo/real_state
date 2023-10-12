@@ -5,7 +5,9 @@ class PropertiesController < ApplicationController
 
   # GET /properties
   def index
-    @properties = Property.all
+    @properties = Rails.cache.fetch('properties/all', expires_in: 1.hour) do
+      Property.all.to_a
+    end
   end
 
   # GET /properties/1
