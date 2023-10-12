@@ -30,4 +30,10 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  properties:
+    create:
+      success: 'Property successfully created.'
+    update:
+      success: 'Property successfully updated.'
+    destroy:
+      success: 'Property successfully destroyed.'
