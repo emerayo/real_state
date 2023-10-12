@@ -3,6 +3,7 @@
 ## System dependencies
 
 * PostgreSQL 14.0+
+* Redis 6+
 * Ruby 3.2.2
 
 ## Setup
