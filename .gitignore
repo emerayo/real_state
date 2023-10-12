@@ -35,3 +35,5 @@
 .env.test.local
 
 coverage/
+
+.byebug_history
