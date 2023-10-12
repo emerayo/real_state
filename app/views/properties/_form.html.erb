@@ -32,6 +32,11 @@
   </div>
 
   <div>
+    <%= form.label :agent_id %>
+    <%= form.select :agent_id, @agents, { include_blank: true } %>
+  </div>
+
+  <div>
     <%= form.submit %>
   </div>
 <% end %>
