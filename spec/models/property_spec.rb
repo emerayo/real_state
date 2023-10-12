@@ -3,6 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe Property, type: :model do
+  describe 'associations' do
+    it { should belong_to(:agent).optional }
+  end
+
   describe 'validations' do
     it { should validate_presence_of(:location) }
     it { should validate_presence_of(:name) }
