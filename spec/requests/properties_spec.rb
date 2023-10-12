@@ -62,6 +62,15 @@ RSpec.describe '/properties', type: :request do
           .to change(Property, :count).from(0).to(1)
         expect(response).to redirect_to(property_url(Property.last))
       end
+
+      it 'creates a new Property and assigns to an Agent' do
+        agent = Agent.create(first_name: 'John', last_name: 'Doe', email: 'email@email.com')
+
+        post properties_url, params: { property: valid_attributes.merge(agent_id: agent.id) }
+
+        agent.reload
+        expect(agent.properties.count).to eq 1
+      end
     end
 
     context 'with invalid parameters' do

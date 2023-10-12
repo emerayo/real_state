@@ -4,7 +4,7 @@
 
 * PostgreSQL 14.0+
 * Redis 6+
-* Ruby 3.2.2
+* Ruby 3.2.1
 
 ## Setup
 

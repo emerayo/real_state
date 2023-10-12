@@ -9,6 +9,7 @@
         <th>Name</th>
         <th>Location</th>
         <th>Price</th>
+        <th>Agent</th>
         <th colspan="3"></th>
       </tr>
     </thead>
@@ -19,6 +20,7 @@
           <td><%= property.name %></td>
           <td><%= property.location %></td>
           <td><%= property.price %></td>
+          <td><%= property.agent_full_name %></td>
           <td><%= link_to 'Show', property %></td>
           <td><%= link_to 'Edit', edit_property_path(property) %></td>
           <td><%= button_to 'Destroy', property, method: :delete, data: { confirm: 'Are you sure?' } %></td>
