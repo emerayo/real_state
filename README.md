@@ -1,24 +1,16 @@
-# README
+# Real State
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Setup
 
-Things you may want to cover:
+Copy the `sample.env` file:
+```
+$ cp sample.env .env
+```
+Now open `.env` file and make sure database environment variables are correct for your environment (use your Postgres configuration).
 
-* Ruby version
+Install all gems and create the development and test databases:
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```
+$ bundle install
+$ bin/rails db:setup
+```

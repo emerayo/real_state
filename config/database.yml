@@ -12,14 +12,17 @@
 #       Install PostgreSQL and put its /bin directory on your path.
 #
 # Configure Using Gemfile
-# gem "pg"
+# gem 'pg'
 #
 default: &default
   adapter: postgresql
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: <%= ENV.fetch('RAILS_MAX_THREADS') { 5 } %>
+  host: <%= ENV['DATABASE_HOST'] %>
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
 
 development:
   <<: *default
@@ -52,8 +55,8 @@ development:
   # Defaults to warning.
   #min_messages: notice
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
+# Warning: The database defined as 'test' will be erased and
+# re-generated from your development database when you run 'rake'.
 # Do not set this db to the same as development or production.
 test:
   <<: *default
@@ -74,7 +77,7 @@ test:
 # URL environment variable explicitly:
 #
 #   production:
-#     url: <%= ENV["MY_APP_DATABASE_URL"] %>
+#     url: <%= ENV['MY_APP_DATABASE_URL'] %>
 #
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
@@ -83,4 +86,4 @@ production:
   <<: *default
   database: real_state_production
   username: real_state
-  password: <%= ENV["REAL_STATE_DATABASE_PASSWORD"] %>
+  password: <%= ENV['REAL_STATE_DATABASE_PASSWORD'] %>
