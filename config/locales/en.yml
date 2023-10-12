@@ -30,6 +30,13 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  agents:
+    create:
+      success: 'Agent successfully created.'
+    update:
+      success: 'Agent successfully updated.'
+    destroy:
+      success: 'Agent successfully destroyed.'
   properties:
     create:
       success: 'Property successfully created.'
