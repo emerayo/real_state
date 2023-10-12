@@ -10,7 +10,7 @@
 
 Copy the `sample.env` file:
 
-```
+```shell
 $ cp sample.env .env
 ```
 
@@ -18,7 +18,7 @@ Now open `.env` file and make sure database environment variables are correct fo
 
 Install all gems and create the development and test databases:
 
-```
+```shell
 $ bundle install
 $ bin/rails db:setup
 ```
@@ -27,7 +27,7 @@ $ bin/rails db:setup
 
 To run the server locally, run the command:
 
-```
+```shell
 $ rails s
 ```
 
@@ -39,7 +39,7 @@ CTRL + C
 
 ## Running the tests
 
-```
+```shell
 $ bundle exec rspec
 ```
 
@@ -55,9 +55,38 @@ Such as RuboCop, TrailingWhitespace and Brakeman.
 
 Install Overcommit hooks:
 
-```
+```shell
 $ overcommit --sign
 $ overcommit --install
 ```
 
 Now you can commit.
+
+## Troubleshooting
+
+This project is using Redis as caching, if you believe your caching is not working properly, follow this steps to ensure it's working:
+
+```shell
+$ rails c
+```
+
+Now, test if Rails is caching the values correctly:
+```ruby
+> Rails.cache.write("test-key", 123)
+=> true
+> Rails.cache.read("test-key")
+=> 123
+```
+
+If the response from `Rails.cache.read("test-key")` is `nil`, it means that your cache is not working.
+
+To fix it, run this command:
+
+```shell
+$ rails dev:cache
+```
+
+You should see the message:
+```
+Development mode is now being cached.
+```
