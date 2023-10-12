@@ -43,6 +43,7 @@ gem 'bootsnap', require: false
 group :development, :test do
   gem 'brakeman'
   gem 'byebug'
+  gem 'dotenv-rails'
   gem 'overcommit'
   gem 'rspec-rails'
   gem 'rubocop', require: false
