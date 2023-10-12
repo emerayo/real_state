@@ -16,12 +16,12 @@ class PropertiesController < ApplicationController
   # GET /properties/new
   def new
     @property = Property.new
-    @agents = find_agents
+    cached_agents
   end
 
   # GET /properties/1/edit
   def edit
-    @agents = find_agents
+    cached_agents
   end
 
   # POST /properties
@@ -31,7 +31,7 @@ class PropertiesController < ApplicationController
     if @property.save
       redirect_to @property, notice: t('.success')
     else
-      @agents = find_agents
+      cached_agents
       render :new, status: :unprocessable_entity
     end
   end
@@ -41,7 +41,7 @@ class PropertiesController < ApplicationController
     if @property.update(property_params)
       redirect_to @property, notice: t('.success')
     else
-      @agents = find_agents
+      cached_agents
       render :edit, status: :unprocessable_entity
     end
   end
@@ -62,9 +62,11 @@ class PropertiesController < ApplicationController
     params.require(:property).permit(:agent_id, :location, :name, :price)
   end
 
-  def find_agents
-    Agent.all.map do |agent|
-      [agent.full_name, agent.id]
+  def cached_agents
+    @agents = Rails.cache.fetch('agents/all/for_select', expires_in: 1.hour) do
+      Agent.all.map do |agent|
+        [agent.full_name, agent.id]
+      end
     end
   end
 end
