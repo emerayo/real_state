@@ -3,7 +3,7 @@
 ## System dependencies
 
 * PostgreSQL 14.0+
-* Ruby 3.2.2
+* Ruby 3.2.1
 
 ## Setup
 
