@@ -5,7 +5,7 @@ class PropertiesController < ApplicationController
 
   # GET /properties
   def index
-    @properties = Property.all
+    @properties = Property.includes(:agent).all
   end
 
   # GET /properties/1
@@ -14,10 +14,13 @@ class PropertiesController < ApplicationController
   # GET /properties/new
   def new
     @property = Property.new
+    @agents = find_agents
   end
 
   # GET /properties/1/edit
-  def edit; end
+  def edit
+    @agents = find_agents
+  end
 
   # POST /properties
   def create
@@ -26,6 +29,7 @@ class PropertiesController < ApplicationController
     if @property.save
       redirect_to @property, notice: t('.success')
     else
+      @agents = find_agents
       render :new, status: :unprocessable_entity
     end
   end
@@ -35,6 +39,7 @@ class PropertiesController < ApplicationController
     if @property.update(property_params)
       redirect_to @property, notice: t('.success')
     else
+      @agents = find_agents
       render :edit, status: :unprocessable_entity
     end
   end
@@ -48,10 +53,16 @@ class PropertiesController < ApplicationController
   private
 
   def find_property
-    @property = Property.find(params[:id])
+    @property = Property.includes(:agent).find(params[:id])
   end
 
   def property_params
-    params.require(:property).permit(:location, :name, :price)
+    params.require(:property).permit(:agent_id, :location, :name, :price)
+  end
+
+  def find_agents
+    Agent.all.map do |agent|
+      [agent.full_name, agent.id]
+    end
   end
 end

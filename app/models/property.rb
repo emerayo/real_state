@@ -6,7 +6,11 @@ class Property < ApplicationRecord
     sold: 'sold'
   }
 
+  belongs_to :agent, optional: true
+
   validates :location, presence: true
   validates :name, presence: true, length: { maximum: 255 }
   validates :price, presence: true
+
+  delegate :full_name, to: :agent, prefix: true, allow_nil: true
 end
