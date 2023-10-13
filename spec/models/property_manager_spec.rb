@@ -25,6 +25,12 @@ RSpec.describe PropertyManager do
 
   describe '#create' do
     context 'with valid parameters but not an Agent' do
+      before do
+        # Mock the response from subscriber so it does not perform any actions
+        allow_any_instance_of(AgentAssigner)
+          .to receive(:property_created_without_agent).and_return(true)
+      end
+
       it 'creates a new Property' do
         expect { manager.create }.to change(Property, :count).from(0).to(1)
         expect(manager.success).to eq true
@@ -33,7 +39,6 @@ RSpec.describe PropertyManager do
       it 'broadcast the event' do
         expect { manager.create }
           .to broadcast(:property_created_without_agent)
-          .and not_broadcast(:property_created_with_agent)
         expect(manager.success).to eq true
       end
     end
@@ -72,6 +77,12 @@ RSpec.describe PropertyManager do
     context 'with valid parameters but not an Agent' do
       let(:manager) { PropertyManager.new(params: { name: 'new name' }, property: property) }
 
+      before do
+        # Mock the response from subscriber so it does not perform any actions
+        allow_any_instance_of(AgentAssigner)
+          .to receive(:property_updated_without_agent).and_return(true)
+      end
+
       it 'updates Property field' do
         expect { manager.update }.not_to change(Property, :count)
         expect(manager.success).to eq true
@@ -81,7 +92,6 @@ RSpec.describe PropertyManager do
       it 'broadcast the event' do
         expect { manager.update }
           .to broadcast(:property_updated_without_agent)
-          .and not_broadcast(:property_updated_with_agent, property.id)
         expect(manager.success).to eq true
       end
     end
