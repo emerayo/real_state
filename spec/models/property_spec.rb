@@ -3,6 +3,14 @@
 require 'rails_helper'
 
 RSpec.describe Property, type: :model do
+  it do
+    should define_enum_for(:status)
+      .with_values(
+        available: 'available',
+        sold: 'sold'
+      ).backed_by_column_of_type(:string)
+  end
+
   describe 'associations' do
     it { should belong_to(:agent).optional }
   end
@@ -11,6 +19,7 @@ RSpec.describe Property, type: :model do
     it { should validate_presence_of(:location) }
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:price) }
+    it { should validate_presence_of(:status) }
     it { should validate_length_of(:name).is_at_most(255) }
   end
 

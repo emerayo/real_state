@@ -11,6 +11,7 @@ class Property < ApplicationRecord
   validates :location, presence: true
   validates :name, presence: true, length: { maximum: 255 }
   validates :price, presence: true
+  validates :status, presence: true
 
   delegate :full_name, to: :agent, prefix: true, allow_nil: true
 end

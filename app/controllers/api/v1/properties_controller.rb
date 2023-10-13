@@ -55,7 +55,7 @@ module Api
       end
 
       def property_params
-        params.require(:property).permit(:agent_id, :location, :name, :price)
+        params.require(:property).permit(:agent_id, :location, :name, :price, :status)
       end
     end
   end

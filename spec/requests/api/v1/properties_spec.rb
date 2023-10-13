@@ -7,7 +7,8 @@ RSpec.describe '/api/v1/properties', type: :request do
     {
       name: 'Big House with 5 bedrooms',
       location: 'Fifth Avenue 1500, New York, NY',
-      price: 1_500_000
+      price: 1_500_000,
+      status: 'available'
     }
   end
 
@@ -15,7 +16,8 @@ RSpec.describe '/api/v1/properties', type: :request do
     {
       name: nil,
       location: 'Fifth Avenue 1500, New York, NY',
-      price: 1_500_000
+      price: 1_500_000,
+      status: 'available'
     }
   end
 
