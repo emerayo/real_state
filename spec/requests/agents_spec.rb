@@ -28,12 +28,22 @@ RSpec.describe '/agents', type: :request do
   end
 
   describe 'GET /show' do
-    it 'renders a successful response' do
-      agent = Agent.create! valid_attributes
+    context 'when the Agent exists' do
+      it 'renders a successful response' do
+        agent = Agent.create! valid_attributes
 
-      get agent_url(agent)
+        get agent_url(agent)
 
-      expect(response).to be_successful
+        expect(response).to be_successful
+      end
+    end
+
+    context 'when the Agent does not exist' do
+      it 'redirects to properties_url' do
+        get agent_url(1)
+
+        expect(response).to redirect_to(properties_url)
+      end
     end
   end
 
@@ -46,12 +56,22 @@ RSpec.describe '/agents', type: :request do
   end
 
   describe 'GET /edit' do
-    it 'renders a successful response' do
-      agent = Agent.create! valid_attributes
+    context 'when the Agent exists' do
+      it 'renders a successful response' do
+        agent = Agent.create! valid_attributes
 
-      get edit_agent_url(agent)
+        get edit_agent_url(agent)
 
-      expect(response).to be_successful
+        expect(response).to be_successful
+      end
+    end
+
+    context 'when the Agent does not exist' do
+      it 'redirects to properties_url' do
+        get edit_agent_url(1)
+
+        expect(response).to redirect_to(properties_url)
+      end
     end
   end
 
@@ -101,14 +121,32 @@ RSpec.describe '/agents', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
+
+    context 'when the Agent does not exist' do
+      it 'redirects to properties_url' do
+        patch agent_url(1)
+
+        expect(response).to redirect_to(properties_url)
+      end
+    end
   end
 
   describe 'DELETE /destroy' do
-    it 'destroys the requested agent and redirects to the properties list' do
-      agent = Agent.create! valid_attributes
+    context 'when the Agent exists' do
+      it 'destroys the requested agent and redirects to the properties list' do
+        agent = Agent.create! valid_attributes
 
-      expect { delete agent_url(agent) }.to change(Agent, :count).by(-1)
-      expect(response).to redirect_to(agents_url)
+        expect { delete agent_url(agent) }.to change(Agent, :count).by(-1)
+        expect(response).to redirect_to(agents_url)
+      end
+    end
+
+    context 'when the Agent does not exist' do
+      it 'redirects to properties_url' do
+        delete agent_url(1)
+
+        expect(response).to redirect_to(properties_url)
+      end
     end
   end
 end
