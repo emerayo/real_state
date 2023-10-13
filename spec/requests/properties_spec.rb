@@ -20,6 +20,11 @@ RSpec.describe '/properties', type: :request do
   end
 
   describe 'GET /index' do
+    before do
+      # Need to clear the cached properties
+      Rails.cache.delete('properties/all')
+    end
+
     it 'renders a successful response' do
       get properties_url
 
@@ -48,7 +53,14 @@ RSpec.describe '/properties', type: :request do
   end
 
   describe 'GET /new' do
+    before do
+      # Need to clear the cached properties
+      Rails.cache.delete('agents/all/for_select')
+    end
+
     it 'renders a successful response' do
+      Agent.create(first_name: 'John', last_name: 'Doe', email: 'email@email.com')
+
       get new_property_url
 
       expect(response).to be_successful
