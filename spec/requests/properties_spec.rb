@@ -20,6 +20,11 @@ RSpec.describe '/properties', type: :request do
   end
 
   describe 'GET /index' do
+    before do
+      # Need to clear the cached properties
+      Rails.cache.delete('properties/all')
+    end
+
     it 'renders a successful response' do
       get properties_url
 
@@ -28,17 +33,34 @@ RSpec.describe '/properties', type: :request do
   end
 
   describe 'GET /show' do
-    it 'renders a successful response' do
-      property = Property.create! valid_attributes
+    context 'when the Property exists' do
+      it 'renders a successful response' do
+        property = Property.create! valid_attributes
 
-      get property_url(property)
+        get property_url(property)
 
-      expect(response).to be_successful
+        expect(response).to be_successful
+      end
+    end
+
+    context 'when the Property does not exist' do
+      it 'redirects to properties_url' do
+        get property_url(1)
+
+        expect(response).to redirect_to(properties_url)
+      end
     end
   end
 
   describe 'GET /new' do
+    before do
+      # Need to clear the cached properties
+      Rails.cache.delete('agents/all/for_select')
+    end
+
     it 'renders a successful response' do
+      Agent.create(first_name: 'John', last_name: 'Doe', email: 'email@email.com')
+
       get new_property_url
 
       expect(response).to be_successful
@@ -46,12 +68,22 @@ RSpec.describe '/properties', type: :request do
   end
 
   describe 'GET /edit' do
-    it 'renders a successful response' do
-      property = Property.create! valid_attributes
+    context 'when the Property exists' do
+      it 'renders a successful response' do
+        property = Property.create! valid_attributes
 
-      get edit_property_url(property)
+        get edit_property_url(property)
 
-      expect(response).to be_successful
+        expect(response).to be_successful
+      end
+    end
+
+    context 'when the Property does not exist' do
+      it 'redirects to properties_url' do
+        get edit_property_url(1)
+
+        expect(response).to redirect_to(properties_url)
+      end
     end
   end
 
@@ -122,14 +154,32 @@ RSpec.describe '/properties', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
+
+    context 'when the Property does not exist' do
+      it 'redirects to properties_url' do
+        patch property_url(1)
+
+        expect(response).to redirect_to(properties_url)
+      end
+    end
   end
 
   describe 'DELETE /destroy' do
-    it 'destroys the requested property and redirects to the properties list' do
-      property = Property.create! valid_attributes
+    context 'when the Property exists' do
+      it 'destroys the requested property and redirects to the properties list' do
+        property = Property.create! valid_attributes
 
-      expect { delete property_url(property) }.to change(Property, :count).by(-1)
-      expect(response).to redirect_to(properties_url)
+        expect { delete property_url(property) }.to change(Property, :count).by(-1)
+        expect(response).to redirect_to(properties_url)
+      end
+    end
+
+    context 'when the Property does not exist' do
+      it 'redirects to properties_url' do
+        delete property_url(1)
+
+        expect(response).to redirect_to(properties_url)
+      end
     end
   end
 end

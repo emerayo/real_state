@@ -44,3 +44,4 @@ en:
       success: 'Property successfully updated.'
     destroy:
       success: 'Property successfully destroyed.'
+  not_found: 'We could not match this URL.'
