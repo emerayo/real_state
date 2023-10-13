@@ -26,9 +26,10 @@ class PropertiesController < ApplicationController
 
   # POST /properties
   def create
-    @property = Property.new(property_params)
+    manager = PropertyManager.new(params: property_params).create
+    @property = manager.property
 
-    if @property.save
+    if manager.success
       redirect_to @property, notice: t('.success')
     else
       cached_agents
@@ -38,7 +39,9 @@ class PropertiesController < ApplicationController
 
   # PATCH/PUT /properties/1
   def update
-    if @property.update(property_params)
+    manager = PropertyManager.new(params: property_params, property: @property).update
+    @property = manager.property
+    if manager.success
       redirect_to @property, notice: t('.success')
     else
       cached_agents

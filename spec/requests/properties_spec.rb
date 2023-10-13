@@ -57,6 +57,12 @@ RSpec.describe '/properties', type: :request do
 
   describe 'POST /create' do
     context 'with valid parameters' do
+      before do
+        # Mock the response from subscriber so it does not perform any actions
+        allow_any_instance_of(AgentAssigner)
+          .to receive(:property_created_without_agent).and_return(true)
+      end
+
       it 'creates a new Property and redirects to the created property' do
         expect { post properties_url, params: { property: valid_attributes } }
           .to change(Property, :count).from(0).to(1)
@@ -88,6 +94,12 @@ RSpec.describe '/properties', type: :request do
         {
           name: 'Small house with 1 bedroom'
         }
+      end
+
+      before do
+        # Mock the response from subscriber so it does not perform any actions
+        allow_any_instance_of(AgentAssigner)
+          .to receive(:property_updated_without_agent).and_return(true)
       end
 
       it 'updates the requested property and redirects to the property' do

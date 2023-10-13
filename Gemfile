@@ -52,6 +52,8 @@ gem 'bootsnap', require: false
 # [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+gem 'wisper'
+
 group :development, :test do
   gem 'brakeman'
   gem 'byebug'
@@ -80,4 +82,5 @@ group :test do
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'simplecov', require: false
+  gem 'wisper-rspec', require: false
 end
